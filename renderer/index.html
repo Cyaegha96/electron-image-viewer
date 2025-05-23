@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Image Viewer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="mainButtons">
+        <button id="loadBtn">폴더 열기</button>
+        <button id="loadLast100Btn">마지막 100장 불러오기</button>
+        <button id="shuffleBtn">이미지 셔플</button>
+        <button id="refreshMoveBtn">즐겨찾기 폴더 지정</button>
+    </div>
+    <div id="grid"></div>
+    <div id="modal">
+        <div id="modalButtons">
+            <button id="closeBtn">✖ 닫기</button>
+            <button id="copyBtn">📋 복사</button>
+            <button id="deleteBtn">🗑️ 삭제</button>
+            <button id="exploreBtn">파일위치 열기</button>
+            <button id="moveBtn">즐겨찾기</button>
+        </div>
+        <div id="deleteConfirmDialog" class="modal">
+            <div class="modal-content">
+                <h3>이미지를 삭제하시겠습니까? <p>삭제된 이미지는 복구 할 수 없습니다.</h3>
+                <button id="confirmDeleteBtn">확인</button>
+                <button id="cancelDeleteBtn">취소</button>
+            </div>
+        </div>
+        <div id="filePath" class="file-path"></div> <!-- 파일 경로 표시 -->
+        <div id="modal-imageandexif" style="display: flex; gap: 20px;">
+            <img id="modalImg" src="" alt="Full View">
+            <div id="image-meta" style="max-width: 100%; max-height: 90vh;flex: 1">
+                <h3>Metadata</h3>
+                <div id="metadataContainer" style="flex: 1;"></div>
+            </div>
+        </div>
+        <div id="toast" class="toast">test</div>
+    </div>
+    <div id=" toast"></div>
+    <script src="renderer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+</body>
+
+</html>

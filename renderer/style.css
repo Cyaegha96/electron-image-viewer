@@ -1,0 +1,429 @@
+:root {
+    --bg-color: #1e1e1e;
+    --accent: #4fa3ff;
+    --thumb-bg: #2a2a2a;
+    --thumb-hover: #3a3a3a;
+    --border-radius: 10px;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-color);
+    color: white;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#loadLast100Btn {
+    background: #14b866;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    margin: 12px;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    cursor: pointer;
+    align-self: flex-start;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background 0.3s;
+}
+
+#refreshBtn:hover {
+    background: #1ce681;
+}
+
+#shuffleBtn {
+    background: #ce4848;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    margin: 12px;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    cursor: pointer;
+    align-self: flex-start;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background 0.3s;
+}
+
+#refreshMoveBtn {
+    background: #b848ce;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    margin: 12px;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    cursor: pointer;
+    align-self: flex-start;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background 0.3s;
+}
+
+#loadBtn {
+    background: var(--accent);
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    margin: 12px;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    cursor: pointer;
+    align-self: flex-start;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background 0.3s;
+}
+
+#loadBtn:hover {
+    background: #3994f3;
+}
+
+#grid {
+    height: auto;
+    min-height: 0;
+    position: relative;
+    flex: 1;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    /* 한 줄에 5개 */
+    gap: 10px;
+    /* 이미지 간격 (margin 대신 사용) */
+    padding: 12px;
+    background-color: #151515;
+}
+
+.thumb {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: #eee;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+}
+
+.thumb:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 12px rgba(79, 163, 255, 0.5);
+}
+
+/* 모달 배경 */
+#modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    flex-direction: column;
+    /* 모달 내부를 세로로 배치 */
+}
+
+/* 모달 이미지 */
+#modal img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* 모달 열릴 때 */
+#modal.show {
+    display: flex;
+}
+
+/* 모달 내부 버튼 (모달 외부 버튼과 구분하기 위해 수정) */
+#modalButtons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 16px 0;
+    z-index: 20;
+    position: absolute;
+    bottom: 20px;
+    /* 모달 하단에 고정 */
+}
+
+/* 모달을 띄울 때, 버튼이 아래로 밀리거나 가려지지 않도록 고정 */
+#modalButtons button {
+    margin: 8px;
+    padding: 10px 18px;
+    font-size: 16px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* 모달 내부에서 버튼 스타일 */
+#modalButtons button:hover {
+    background: #3994f3;
+}
+
+#filePath {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ccc;
+    text-align: center;
+    word-wrap: break-word;
+    max-width: 90%;
+    overflow-wrap: break-word;
+    word-break: break-all;
+}
+
+#copyBtn {
+    margin-top: 16px;
+    padding: 10px 18px;
+    font-size: 16px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#copyBtn:hover {
+    background: #3994f3;
+}
+
+#toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 128, 0, 0.9);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: none;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease, bottom 0.3s ease;
+}
+
+#toast.show {
+    display: block;
+    opacity: 1;
+    bottom: 30px;
+}
+
+#exploreBtn {
+    margin-top: 16px;
+    padding: 10px 18px;
+    font-size: 16px;
+    background: #d43ec8;
+    /* 빨간색 */
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+
+#deleteBtn {
+    margin-top: 16px;
+    padding: 10px 18px;
+    font-size: 16px;
+    background: #e74c3c;
+    /* 빨간색 */
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#deleteBtn:hover {
+    background: #c0392b;
+}
+
+#closeBtn {
+    margin-top: 16px;
+    padding: 10px 18px;
+    font-size: 16px;
+    background: #3ab344;
+    /* 빨간색 */
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* 삭제 확인 모달 배경 */
+#deleteConfirmDialog {
+    display: none;
+    position: fixed;
+    z-index: 20;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* 어두운 배경 */
+    align-items: center;
+    justify-content: center;
+}
+
+/* 애니메이션 효과를 위한 show 클래스 */
+#deleteConfirmDialog.show {
+    display: flex;
+}
+
+/* 모달 내부 콘텐츠 */
+#deleteConfirmDialog .modal-content {
+    background-color: #ffffff;
+    padding: 24px 32px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    animation: fadeIn 0.25s ease-out;
+}
+
+/* 삭제 확인 텍스트 */
+#deleteConfirmDialog .modal-content h3 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* 확인, 취소 버튼 스타일 */
+#deleteConfirmDialog button {
+    margin: 8px;
+    padding: 10px
+}
+
+#mainButtons {
+    display: flex;
+}
+
+#modalButtons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 16px 0;
+    z-index: 10;
+}
+
+img.thumb {
+    min-height: 150px;
+    background: #f0f0f0;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: opacity 0.3s;
+    opacity: 0;
+}
+
+img.thumb[src] {
+    opacity: 1;
+}
+
+.modal {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    display: none;
+}
+
+.modal.show {
+    display: flex;
+    opacity: 1;
+}
+
+.modal.hide {
+    opacity: 0;
+}
+
+.prompt-box {
+
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.prompt-box code {
+    display: block;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-bottom: 12px;
+}
+
+#modal-imageandexif {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#metadataContainer {
+    width: 600px;
+    padding: 10px;
+    overflow-x: auto;
+}
+
+#image-meta {
+    max-width: 40%;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-y: auto;
+    max-height: 80vh;
+    font-family: sans-serif;
+}
+
+#image-meta h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1.2em;
+}
+
+#meta-content p {
+    margin: 15px 0;
+    /* 위 아래로 10px 간격 */
+    font-size: 0.95em;
+    line-height: 1.6em;
+    word-break: break-word;
+}
+
+/* Chrome, Edge, Safari */
+#grid::-webkit-scrollbar {
+    width: 12px;
+}
+
+#grid::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    /* 배경 */
+    border-radius: 10px;
+}
+
+#grid::-webkit-scrollbar-thumb {
+    background: #4fa3ff;
+    /* 손잡이 색상 */
+    border-radius: 10px;
+    border: 2px solid #1a1a1a;
+    /* 손잡이와 배경 사이 간격 */
+}
+
+#grid::-webkit-scrollbar-thumb:hover {
+    background: #6db9ff;
+}
+
+/* Firefox */
+#grid {
+    scrollbar-width: thin;
+    scrollbar-color: #4fa3ff #1a1a1a;
+}

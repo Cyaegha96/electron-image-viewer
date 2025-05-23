@@ -1,0 +1,49 @@
+{
+  "name": "electron-image-viewer",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "dependencies": {
+    "canvas": "^3.1.0",
+    "exif-parser": "^0.1.12",
+    "sharp": "^0.34.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "build": {
+    "appId": "com.example.myapp",
+    "productName": "Electron-image-viewer",
+    "files": [
+      "dist/read_metadata.exe",
+      "renderer/**/*",
+      "main.js",
+      "preload.js",
+      {
+        "from": "dist/read_metadata.exe",
+        "to": "read_metadata.exe",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^36.2.0",
+    "electron-builder": "^26.0.12"
+  }
+}
